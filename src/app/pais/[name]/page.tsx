@@ -1,4 +1,5 @@
-import { getCountryByName } from "@/functions/getCountry";
+import CountryBorderCard from "@/components/CountryBorderCard";
+import { getCountryBordersByName, getCountryByName } from "@/functions/getCountry";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,6 +9,7 @@ export default async function CountryPage({
   params: { name: string };
 }) {
   const country = await getCountryByName(name);
+  const borderCountries = await getCountryBordersByName(decodeURI(name))
 
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -34,7 +36,7 @@ export default async function CountryPage({
           </svg>
           Voltar
         </Link>
-        <article className="flex flex-row justify-between min-w-full p-10 bg-white rounded-xl">
+        <article className="flex flex-col md:flex-row justify-between min-w-full p-10 bg-white rounded-xl">
           <section className="">
             {country.capital && (
               <h2 className="text-xl text-gray-800">
@@ -66,7 +68,7 @@ export default async function CountryPage({
               </h2>
             )}
           </section>
-          <div className="relative h-auto w-96 shadow-md rounded-xl">
+          <div className="relative h-48 my-2 md:h-auto w-96 shadow-md md:order-last order-first rounded-xl">
             <Image
               src={country.flags.svg}
               alt={country.flags.alt}
@@ -75,6 +77,16 @@ export default async function CountryPage({
             />
           </div>
         </article>
+        <section>
+          <h3 className="mt-12 text-2xl font-semibold text-gray-800">
+            Países que fazem fronteiras
+          </h3>
+          <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-2">
+            {borderCountries?.map((border) => (
+              <CountryBorderCard {...border} />
+            ))}
+          </div>
+        </section>
       </section>
     </>
   );
