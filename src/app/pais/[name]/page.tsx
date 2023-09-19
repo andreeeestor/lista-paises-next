@@ -1,4 +1,4 @@
-import CountryBorderCard from "@/components/CountryBorderCard";
+import CountryCard from "@/components/CountryCard";
 import { getCountryBordersByName, getCountryByName } from "@/functions/getCountry";
 import Image from "next/image";
 import Link from "next/link";
@@ -83,7 +83,7 @@ export default async function CountryPage({
           </h3>
           <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-2 mt-4">
             {borderCountries?.map((border) => (
-              <CountryBorderCard key={border.name} {...border} />
+              <CountryCard key={border.name} {...border} />
             ))}
           </div>
         </section>
